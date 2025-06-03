@@ -1,1 +1,1 @@
-"# hacking_labs" 
+🧪Repositorio dedicado al almacenamiento de laboratorios prácticos enfocados en técnicas y vectores de ataque utilizados en escenarios de hacking reales. Cada carpeta contiene entornos reproducibles (usualmente con Docker) que simulan vulnerabilidades específicas con el objetivo de aprender, analizar y entender su explotación de forma controlada y ética.🔐🛠️
