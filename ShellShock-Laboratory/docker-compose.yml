@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  shellshock-lab:
+    image: debian:jessie
+    container_name: shellshock-lab
+    ports:
+      - "8080:80"
+    volumes:
+      - ./cgi-bin:/usr/lib/cgi-bin
+    command: >
+      bash -c "
+        echo 'deb http://archive.debian.org/debian jessie main contrib non-free' > /etc/apt/sources.list &&
+        echo 'deb http://archive.debian.org/debian-security jessie/updates main contrib non-free' >> /etc/apt/sources.list &&
+        apt-get -o Acquire::Check-Valid-Until=false update &&
+        apt-get -o Acquire::Check-Valid-Until=false install -y apache2 curl wget build-essential &&
+        a2enmod cgi &&
+        a2enconf serve-cgi-bin &&
+        service apache2 restart &&
+        apache2ctl -D FOREGROUND
+      "
