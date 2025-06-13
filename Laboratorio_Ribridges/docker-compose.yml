@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  vendor-auth:
+    build: .
+    container_name: vendor_auth
+    entrypoint: ["/app/init.sh"]
+    command: ["node", "vendor-auth.js"]
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+
+  portal-api:
+    build: .
+    container_name: portal_api
+    entrypoint: ["/app/init.sh"]
+    command: ["node", "portal-api.js"]
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./data:/app/data
