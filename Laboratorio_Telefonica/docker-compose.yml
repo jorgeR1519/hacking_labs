@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  jira-mock:
+    build: ./jira-mock
+    image: localhost/laboratorio_telefonica_jira-mock:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./jira-mock/data:/app/data:ro
+
+  phishing-page:
+    build: ./phishing-page
+    image: localhost/laboratorio_telefonica_phishing-page:latest
+    ports:
+      - "8080:80"
+    volumes:
+      # Montamos solo el log, el HTML y CGI vienen empaquetados en la imagen
+      - ./phishing-page/phishing.log:/var/log/phishing.log:rw
+
+  evidence-collector:
+    image: alpine:3.18
+    container_name: evidence-collector
+    command: ['sh', '-c', 'tail -f /evidence/phishing.log']
+    volumes:
+      - ./phishing-page/phishing.log:/evidence/phishing.log:rw

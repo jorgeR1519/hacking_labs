@@ -1,0 +1,14 @@
+[
+  {
+    "timestamp": "2025-01-10T09:15:00Z",
+    "user": "juan@telefonica.es",
+    "action": "CREATED",
+    "ticket": "JIRA-101"
+  },
+  {
+    "timestamp": "2025-01-12T14:30:00Z",
+    "user": "ana@telefonica.es",
+    "action": "UPDATED",
+    "ticket": "JIRA-102"
+  }
+]
