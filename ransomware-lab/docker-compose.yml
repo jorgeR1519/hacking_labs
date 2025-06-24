@@ -1,0 +1,26 @@
+services:
+  ifx-server:
+    build: ./ifx-server
+    container_name: ifx-server
+    ports:
+      - "8080:80"
+    volumes:
+      - ./ifx-server/patch.sh:/usr/local/apache2/htdocs/patch.sh    
+
+  cliente-salud:
+    build: ./cliente-base
+    container_name: cliente-salud
+    depends_on:
+      - ifx-server
+
+  cliente-judicial:
+    build: ./cliente-base
+    container_name: cliente-judicial
+    depends_on:
+      - ifx-server
+
+  cliente-sic:
+    build: ./cliente-base
+    container_name: cliente-sic
+    depends_on:
+      - ifx-server
