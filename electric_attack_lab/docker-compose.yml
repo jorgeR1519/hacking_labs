@@ -1,0 +1,51 @@
+version: '3.8'
+
+networks:
+  grid_net:
+    driver: bridge
+
+services:
+
+  scada:
+    image: nodered/node-red:latest
+    container_name: scada
+    volumes:
+      - ./scada/flows.json:/data/flows.json
+    networks:
+      - grid_net
+    ports:
+      - "1880:1880"  # UI Node-RED
+
+  opcua:
+    build: ./opcua
+    container_name: opcua
+    networks:
+      - grid_net
+    ports:
+      - "4840:4840"  # OPC UA
+
+  rtu:
+    build: ./rtu
+    container_name: rtu
+    networks:
+      - grid_net
+    ports:
+      - "502:502"    # Modbus/TCP
+
+  c2:
+    build: ./c2
+    container_name: c2
+    networks:
+      - grid_net
+    ports:
+      - "8080:8080"  # servidor C2 HTTP
+
+  attacker:
+    build: ./attacker
+    container_name: attacker
+    networks:
+      - grid_net
+    volumes:
+      - ./attacker/entrypoint.sh:/entrypoint.sh
+    entrypoint: [ "/bin/bash", "/entrypoint.sh" ]
+    tty: true

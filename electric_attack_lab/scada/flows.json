@@ -1,0 +1,44 @@
+[
+  {
+    "id": "inject_http_flow",
+    "type": "tab",
+    "label": "HTTP Inject Flow",
+    "disabled": false,
+    "info": ""
+  },
+  {
+    "id": "http_in",
+    "type": "http in",
+    "z": "inject_http_flow",
+    "name": "",
+    "url": "/inject",
+    "method": "post",
+    "swaggerDoc": "",
+    "x": 120,
+    "y": 80,
+    "wires": [["function_log"]]
+  },
+  {
+    "id": "function_log",
+    "type": "function",
+    "z": "inject_http_flow",
+    "name": "Log Attack",
+    "func": "node.warn(\"¡Flujo inyectado! payload=\" + JSON.stringify(msg.payload));\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 300,
+    "y": 80,
+    "wires": [["http_response"]]
+  },
+  {
+    "id": "http_response",
+    "type": "http response",
+    "z": "inject_http_flow",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 480,
+    "y": 80,
+    "wires": []
+  }
+]
