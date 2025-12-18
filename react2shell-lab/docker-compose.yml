@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  vulnerable-app:
+    build: ./vulnerable-app
+    container_name: r2s_vulnerable_app
+    volumes:
+      - ./vulnerable-app/data:/data
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  exfil-server:
+    build: ./exfil-server
+    container_name: r2s_exfil
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
