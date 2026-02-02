@@ -1,0 +1,38 @@
+{
+  "attack_timestamp": "2026-02-02T22:13:08.695489",
+  "target_system": "Snowflake Simulation Platform",
+  "attack_scenario": "Mass Data Breach via Credential Compromise",
+  "vulnerabilities_exploited": [
+    "Missing MFA (Multi-Factor Authentication)",
+    "Default/Weak Credentials",
+    "SQL Injection Vulnerability",
+    "Excessive Database Permissions"
+  ],
+  "attack_steps": [
+    "1. Credential stuffing attack successful",
+    "2. Session hijacking via stolen cookies",
+    "3. SQL injection to extract database schema",
+    "4. Direct database access with compromised credentials",
+    "5. Mass data exfiltration"
+  ],
+  "data_compromised": {
+    "total_tables": 5,
+    "total_records": 12,
+    "tables_accessed": [
+      "customer_data",
+      "financial_records",
+      "employee_info",
+      "api_keys",
+      "security_logs"
+    ]
+  },
+  "recommendations": [
+    "Implement MFA for all user accounts",
+    "Enforce strong password policies",
+    "Implement SQL input validation and parameterized queries",
+    "Restrict database access to only necessary IPs",
+    "Implement network segmentation",
+    "Enable logging and monitoring for suspicious activities"
+  ],
+  "simulation_notes": "This is an educational simulation of the Snowflake data breach incident"
+}

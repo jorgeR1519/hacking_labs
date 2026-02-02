@@ -1,0 +1,76 @@
+services:
+  # Base de datos simulando Snowflake
+  snowflake-db:
+    image: postgres:15-alpine
+    container_name: snowflake-db
+    environment:
+      POSTGRES_DB: snowflake_sim
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Admin123
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - snowflake-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d snowflake_sim"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Aplicación web vulnerable (sin MFA)
+  vulnerable-app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: vulnerable-app
+    environment:
+      DB_HOST: snowflake-db
+      DB_PASSWORD: Admin123
+      ENABLE_MFA: "false"
+    ports:
+      - "8080:8080"
+    depends_on:
+      snowflake-db:
+        condition: service_healthy
+    networks:
+      - snowflake-net
+
+  # Simulador de atacante
+  attacker:
+    build:
+      context: ./attacker
+      dockerfile: Dockerfile
+    container_name: attacker-sim
+    networks:
+      - snowflake-net
+    depends_on:
+      - vulnerable-app
+    volumes:
+      - ./scripts:/scripts  # Para compartir scripts adicionales
+
+  # Panel de monitoreo (opcional, si quieres tenerlo)
+  monitoring:
+    image: grafana/grafana:latest
+    container_name: monitoring-dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_INSTALL_PLUGINS: "grafana-piechart-panel"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - snowflake-net
+
+networks:
+  snowflake-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  grafana_data:
+    driver: local
