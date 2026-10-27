@@ -1,0 +1,37 @@
+{
+  "generated_at": "2026-10-27T17:33:30.885471+00:00",
+  "purpose": "PHP runtime baseline comparison",
+  "cve_exploitation_demonstrated": false,
+  "results": [
+    {
+      "target": "vulnerable",
+      "php_version": "8.2.34",
+      "sapi": "apache2handler",
+      "memory_limit": "16M",
+      "checks": {
+        "http_ok": true,
+        "expected_version": true,
+        "mod_php": true,
+        "session_http_ok": true,
+        "session_active": true,
+        "session_cookie_name": true
+      },
+      "passed": true
+    },
+    {
+      "target": "patched",
+      "php_version": "8.2.35",
+      "sapi": "apache2handler",
+      "memory_limit": "16M",
+      "checks": {
+        "http_ok": true,
+        "expected_version": true,
+        "mod_php": true,
+        "session_http_ok": true,
+        "session_active": true,
+        "session_cookie_name": true
+      },
+      "passed": true
+    }
+  ]
+}
